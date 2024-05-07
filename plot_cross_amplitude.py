@@ -53,4 +53,4 @@ plt.xscale("log")
 #plt.yscale("log")
 plt.title("Crossover")
 #plt.show() # --> Per visualizzare
-plt.savefig("./cross.png") # --> Per salvare
+plt.savefig("./artifacts/cross.png") # --> Per salvare
