@@ -50,6 +50,7 @@ plt.legend()
 plt.xlabel("x")
 plt.ylabel("y")
 plt.xscale("log")
+#plt.yscale("log")
 plt.title("Crossover")
 #plt.show() # --> Per visualizzare
 plt.savefig("./cross.png") # --> Per salvare
