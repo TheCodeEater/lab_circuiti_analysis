@@ -20,6 +20,11 @@ woofer_exp = R*V/sy.sqrt(R**2+(w*L)**2)
 #Woofer
 tweeter_exp = R*V/sy.sqrt(R**2+(w*C)**-2)
 
+#Phase functions
+woofer_phase_exp = sy.atan(-w*L/R)
+tweeter_phase_exp = sy.atan(1/(w*R*C))
+
+
 #Conversion
 # Frequency to angular frequency
 f_conv = 2*sy.pi*f
@@ -28,9 +33,15 @@ f_conv = 2*sy.pi*f
 tweeter_exp=tweeter_exp.subs(R,c.Res1).subs(V,c.Vin).subs(w,f_conv)
 woofer_exp=woofer_exp.subs(R,c.Res2).subs(V,c.Vin).subs(w,f_conv)
 
+tweeter_phase_exp = tweeter_phase_exp.subs(R,c.Res1).subs(w,f_conv)
+woofer_phase_exp = woofer_phase_exp.subs(R,c.Res2).subs(w,f_conv)
+
 
 #Create lambdas
 woofer_volt = sy.lambdify([f, L], woofer_exp)
 tweeter_volt = sy.lambdify([f, C], tweeter_exp)
+
+tweeter_phase = sy.lambdify([f, C], tweeter_phase_exp)
+woofer_phase = sy.lambdify([f, C], woofer_phase_exp)
 
 #print(woofer_exp)
