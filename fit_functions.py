@@ -42,6 +42,6 @@ woofer_volt = sy.lambdify([f, L], woofer_exp)
 tweeter_volt = sy.lambdify([f, C], tweeter_exp)
 
 tweeter_phase = sy.lambdify([f, C], tweeter_phase_exp)
-woofer_phase = sy.lambdify([f, C], woofer_phase_exp)
+woofer_phase = sy.lambdify([f, L], woofer_phase_exp)
 
 #print(woofer_exp)
