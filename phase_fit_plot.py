@@ -40,3 +40,28 @@ W_fit, pcov2 = sp.curve_fit(ff.woofer_phase,
                           bounds=[0,100])
 
 # Plot
+plt.plot(f_T,p_T,
+         color='blue',
+         label='Tweeter')
+plt.plot(f_W,p_W,
+         color='orange',
+         label='Woofer')
+
+#Plot fits
+plt.plot(f_T,ff.tweeter_volt(f_T,*T_fit),
+         color='red',
+         label='FIT_TWEETER')
+#Plot fits
+plt.plot(f_W,ff.woofer_volt(f_W,*W_fit),
+         color='green',
+         label='FIT_WOOFER')
+
+#Graphics
+plt.legend()
+plt.xlabel("x")
+plt.ylabel("y")
+plt.xscale("log")
+#plt.yscale("log")
+plt.title("Crossover")
+#plt.show() # --> Per visualizzare
+plt.savefig("./artifacts/phase_cross.png") # --> Per salvare
