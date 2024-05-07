@@ -48,6 +48,6 @@ tweeter_volt = sy.lambdify([f, C], tweeter_exp)
 
 tweeter_phase = sy.lambdify([f, C], tweeter_phase_exp)
 woofer_phase = sy.lambdify([f, L], woofer_phase_exp)
-#phase_difference=sy.lambdify([f, L, C], p_diff)
+phase_difference=sy.lambdify([f, L, C], p_diff)
 
 #print(woofer_exp)
