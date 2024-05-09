@@ -5,25 +5,25 @@ import scipy.optimize as sp
 import constants as c
 
 # Data loading
-f_T, A_T=np.loadtxt("data/channels/Misura tewwter sweep 2kpt-B 300kpt-s.txt", unpack=True)
-f_W, A_W=np.loadtxt(
-    "data/channels/Misura woofer sweep 200-19953Hz 2kp-B 300kpt-s.txt", unpack=True)
+f_T, A_T, AT_err=np.loadtxt("data/channels/dati", unpack=True, usecols=(0,3,4))
+f_W, A_W, AW_err=np.loadtxt(
+    "data/channels/dati", unpack=True,usecols=(0,1,2))
 
 #Fit tweeter
 #Initial parameters
-sigma=1e-4
+#sigma=1e-4
 
 T_fit, pcov1 = sp.curve_fit(ff.tweeter_volt,
                           xdata= f_T,
                           ydata= A_T,
-                          sigma=sigma,
+                          sigma=AT_err,
                           p0=[c.Capacitance],
                           bounds=[0,100])
 
 W_fit, pcov2 = sp.curve_fit(ff.woofer_volt,
                           xdata= f_W,
                           ydata= A_W,
-                          sigma=sigma,
+                          sigma=AW_err,
                           p0=[c.Inductance],
                           bounds=[0,100])
 
@@ -44,6 +44,10 @@ plt.plot(f_T,ff.tweeter_volt(f_T,*T_fit),
 plt.plot(f_W,ff.woofer_volt(f_W,*W_fit),
          color='green',
          label='FIT_WOOFER')
+
+####
+#Fit parameters
+print("C: {}\nL:{}\nfcross:{}".format(T_fit[0],W_fit[0],1/(2*np.pi*np.sqrt(T_fit[0]*W_fit[0]))))
 
 #Graphics
 plt.legend() 

@@ -5,8 +5,8 @@ import scipy.optimize as sp
 import constants as c
 
 # Load phase data
-f_T, p_T = np.loadtxt("data/phase_channels/tweeter_phase.txt", unpack=True)
-f_W, p_W = np.loadtxt("data/phase_channels/woofer_phase.txt", unpack=True)
+f_T, p_T, pT_error = np.loadtxt("data/channels/dati", unpack=True,usecols=(0,7,8))
+f_W, p_W, pW_error = np.loadtxt("data/channels/dati", unpack=True,usecols=(0,5,6))
 
 #Correct data
 #If phase is negative
@@ -19,21 +19,32 @@ f_W, p_W = np.loadtxt("data/phase_channels/woofer_phase.txt", unpack=True)
     else:
         return np.abs(x+180)
         """
+
 def correct_phase_tweeter(x):
-    if x>90:
-        return np.abs(x-180)
-    elif x<0:
-        return np.abs(x)-180
+
+    if(x>np.pi/2):
+        y= x-np.pi
     else:
-        return x
+        y=x
+
+    if(y<0):
+        return y+np.pi
+    else:
+        return y
 
 def correct_phase_woofer(x):
-    if x<0:
-        return x+360
+    y = x - np.pi
+    if (y > np.pi / 2):
+        return y - np.pi
     else:
-        return x
+        return y
+
 def deg_to_rad(x):
-    return x*np.pi/180
+    return x*180/np.pi
+
+
+def correct_phase(x):
+    return x%360
 
 correct_T = np.vectorize(correct_phase_tweeter)
 correct_W = np.vectorize(correct_phase_woofer)
@@ -55,8 +66,11 @@ p_T=vect_deg_to_rad(p_T)
 p_W=vect_deg_to_rad(p_W)
 
 #Phase difference
-p_T=correct_systematic_1(p_T,f_T)
-p_W=correct_systematic_2(p_W,f_W)
+#p_T=correct_systematic_1(p_T,f_T)
+#p_W=correct_systematic_2(p_W,f_W)
+
+#Systematic oscillation correction
+p_T=p_T-p_W
 
 #Define phase uncertainty
 sigma=1e-4
