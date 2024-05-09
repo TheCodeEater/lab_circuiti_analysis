@@ -43,11 +43,20 @@ vect_deg_to_rad = np.vectorize(deg_to_rad)
 p_T=correct_T(p_T)
 p_W=correct_W(p_W)
 
+#Systematic error correction
+def correct_systematic_1(p,f):
+    return p-2*np.pi*f*c.T_delay
+
+def correct_systematic_2(p,f):
+    return p - 2 * np.pi * f * 2*c.T_delay
+
 #Convert to radians
 p_T=vect_deg_to_rad(p_T)
 p_W=vect_deg_to_rad(p_W)
 
 #Phase difference
+p_T=correct_systematic_1(p_T,f_T)
+p_W=correct_systematic_2(p_W,f_W)
 
 #Define phase uncertainty
 sigma=1e-4
@@ -79,6 +88,7 @@ plt.plot(f_W,p_W,
 
 
 #Plot fits
+"""""
 plt.plot(f_T,ff.tweeter_phase(f_T,*T_fit),
          color='red',
          label='FIT_TWEETER')
@@ -89,7 +99,7 @@ plt.plot(f_W,ff.woofer_phase(f_W,*T_fit),
 
 plt.plot(f_W,ff.phase_difference(f_W,*W_fit,*T_fit),
          color='purple',
-         label='Phase difference')
+         label='Phase difference')"""
 
 #Plot difference
 #plt.plot(f_W-f_T)
