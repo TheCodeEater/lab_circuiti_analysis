@@ -39,7 +39,7 @@ def correct_phase_woofer(x):
     else:
         return y
 
-def deg_to_rad(x):
+def rad2deg(x):
     return x*180/np.pi
 
 
@@ -48,7 +48,7 @@ def correct_phase(x):
 
 correct_T = np.vectorize(correct_phase_tweeter)
 correct_W = np.vectorize(correct_phase_woofer)
-vect_deg_to_rad = np.vectorize(deg_to_rad)
+vect_rad2deg = np.vectorize(rad2deg)
 
 #correct the phases
 p_T=correct_T(p_T)
@@ -61,21 +61,22 @@ def correct_systematic_1(p,f):
 def correct_systematic_2(p,f):
     return p - 2 * np.pi * f * 2*c.T_delay
 
-#Convert to radians
-p_T=vect_deg_to_rad(p_T)
-p_W=vect_deg_to_rad(p_W)
+#Systematic correction
+#p_T=correct_systematic_1(p_T,f_T)
+
+#Convert to degress
+p_T=vect_rad2deg(p_T)
+p_W=vect_rad2deg(p_W)
 
 #Phase difference
-#p_T=correct_systematic_1(p_T,f_T)
 #p_W=correct_systematic_2(p_W,f_W)
 
 #Systematic oscillation correction
 p_T=p_T-p_W
 
-#Define phase uncertainty
-sigma=1e-4
 
 # Perform fit
+"""
 T_fit, pcov1 = sp.curve_fit(ff.tweeter_phase,
                           xdata= f_T,
                           ydata= p_T,
@@ -88,6 +89,13 @@ W_fit, pcov2 = sp.curve_fit(ff.woofer_phase,
                           sigma=sigma,
                           p0=[c.Inductance],
                           bounds=[0,100])
+                          """
+Diff_fit, pcov_diff = sp.curve_fit(ff.phase_difference,
+                                   xdata=f_T,
+                                   ydata=p_T,
+                                   sigma=pT_error,
+                                   p0=[c.Inductance,c.Capacitance,0],
+                                   bounds=[[0,0,-20],[1.5e-2,1e-5,20]])
 
 # Plot
 
@@ -100,6 +108,20 @@ plt.plot(f_W,p_W,
          color='orange',
          label='Woofer')
 
+plt.plot(f_T,ff.phase_difference(f_T,*Diff_fit),
+         color='green',
+         label='Fit')
+
+#Write fit data
+print("L: {}\nC: {}\nOffset: {}".format(Diff_fit[0],Diff_fit[1],Diff_fit[2]))
+print("Fcross: {}\n".format(1/(2*np.pi*np.sqrt(Diff_fit[0]*Diff_fit[1]))))
+
+#Search for maximum phase displacement
+max_index=np.argmax(p_T)
+max_phase_diff=p_T[max_index]
+max_pdiff_freq=f_T[max_index]
+
+print("Maximum phase difference: {}\nAt frequency: {}".format(max_phase_diff,max_pdiff_freq))
 
 #Plot fits
 """""

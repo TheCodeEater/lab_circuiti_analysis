@@ -10,7 +10,7 @@ import constants as c
 # Frequency
 # Inductance
 # Capacitance
-R, V, w, f, L, C = sy.symbols("R V w f L C")
+R, V, w, f, L, C,k = sy.symbols("R V w f L C k")
 
 # Define voltage functions
 
@@ -39,7 +39,7 @@ woofer_phase_exp = woofer_phase_exp.subs(R,c.Res2).subs(w,f_conv)
 #Commodity functions
 phase_sum_exp=tweeter_phase_exp+woofer_phase_exp
 #phase_diff_exp=sy.abs(tweeter_phase_exp-woofer_phase_exp)
-p_diff=tweeter_phase_exp-woofer_phase_exp
+p_diff=tweeter_phase_exp-woofer_phase_exp+k
 
 
 #Create lambdas
@@ -48,6 +48,6 @@ tweeter_volt = sy.lambdify([f, C], tweeter_exp)
 
 tweeter_phase = sy.lambdify([f, C], tweeter_phase_exp)
 woofer_phase = sy.lambdify([f, L], woofer_phase_exp)
-phase_difference=sy.lambdify([f, L, C], p_diff)
+phase_difference=sy.lambdify([f, L, C, k], p_diff)
 
 #print(woofer_exp)
