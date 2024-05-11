@@ -56,13 +56,13 @@ p_W=correct_W(p_W)
 
 #Systematic error correction
 def correct_systematic_1(p,f):
-    return p+2*np.pi*f*c.T_delay
+    return p-2*np.pi*f*c.T_delay
 
 def correct_systematic_2(p,f):
     return p - 2 * np.pi * f * 2*c.T_delay
 
 #Systematic correction
-p_T=correct_systematic_1(p_T,f_T)
+#p_T=correct_systematic_1(p_T,f_T)
 
 #Convert to degress
 #p_T=vect_rad2deg(p_T)
