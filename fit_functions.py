@@ -21,8 +21,8 @@ woofer_exp = R*V/sy.sqrt(R**2+(w*L)**2)
 tweeter_exp = R*V/sy.sqrt(R**2+(w*C)**-2)
 
 #Phase functions
-woofer_phase_exp = sy.atan(-w*L/R)*180/sy.pi
-tweeter_phase_exp = sy.atan(1/(w*R*C))*180/sy.pi
+woofer_phase_exp = sy.atan(-w*L/R)
+tweeter_phase_exp = sy.atan(1/(w*R*C))
 
 
 #Conversion
