@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import fit_functions as ff
 import scipy.optimize as sp
 import constants as c
+import uncertainty as uc
 
 # Data loading
 f_T, A_T, AT_err=np.loadtxt("data/channels/dati", unpack=True, usecols=(0,3,4))
@@ -48,12 +49,16 @@ plt.plot(f_W,ff.woofer_volt(f_W,*W_fit),
 ####
 #Fit parameters
 ####
+L=W_fit[0]
+Delta_L=np.sqrt(pcovW[0][0])
+C=T_fit[0]
+Delta_C=np.sqrt(pcovT[0][0])
 
 #Parameters itself
-print("L: {} +/- {}\n".format(W_fit[0],np.sqrt(pcovW[0][0])))
-print("C: {} +/- {}\n".format(T_fit[0],np.sqrt(pcovT[0][0])))
+print("L: {} +/- {}\n".format(L,Delta_L))
+print("C: {} +/- {}\n".format(C,Delta_C))
 
-print("F Cross: {} +/- {}\n".format(ff.fcross(W_fit[0],T_fit[0]),0))
+print("F Cross: {} +/- {}\n".format(ff.fcross(W_fit[0],T_fit[0]),uc.fcross(L,Delta_L,C,Delta_C)))
 
 #print("C: {}\nL:{}\nfcross:{}".format(T_fit[0],W_fit[0],1/()))
 
