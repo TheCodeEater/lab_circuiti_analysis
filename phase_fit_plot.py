@@ -154,8 +154,8 @@ plt.plot(f_W,ff.phase_difference(f_W,*W_fit,*T_fit),
 
 #Graphics
 plt.legend()
-plt.xlabel("x")
-plt.ylabel("y")
+plt.xlabel("Frequenza (Hz)")
+plt.ylabel("Fase (rad)")
 plt.xscale("log")
 #plt.yscale("log")
 plt.title("Crossover")

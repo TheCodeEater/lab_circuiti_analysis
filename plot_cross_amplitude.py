@@ -64,8 +64,8 @@ print("F Cross: {} +/- {}\n".format(ff.fcross(W_fit[0],T_fit[0]),uc.fcross(L,Del
 
 #Graphics
 plt.legend() 
-plt.xlabel("x")
-plt.ylabel("y")
+plt.xlabel("Frequenza (Hz)")
+plt.ylabel("Ampiezza (V)")
 plt.xscale("log")
 #plt.yscale("log")
 plt.title("Crossover")
