@@ -68,6 +68,6 @@ plt.xlabel("Frequenza (Hz)")
 plt.ylabel("Ampiezza (V)")
 plt.xscale("log")
 #plt.yscale("log")
-plt.title("Crossover")
+plt.title("Ampiezza vs Frequenza - Dati sperimentali e fit")
 #plt.show() # --> Per visualizzare
 plt.savefig("./artifacts/cross.png") # --> Per salvare

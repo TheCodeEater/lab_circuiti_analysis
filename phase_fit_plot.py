@@ -158,6 +158,6 @@ plt.xlabel("Frequenza (Hz)")
 plt.ylabel("Fase (rad)")
 plt.xscale("log")
 #plt.yscale("log")
-plt.title("Crossover")
+plt.title("Sfasamento Tweeter rispetto al Woofer - Dati e fit")
 #plt.show() # --> Per visualizzare
 plt.savefig("./artifacts/phase_cross.png") # --> Per salvare
