@@ -13,14 +13,14 @@ f_W, A_W, AW_err=np.loadtxt(
 #Initial parameters
 #sigma=1e-4
 
-T_fit, pcov1 = sp.curve_fit(ff.tweeter_volt,
+T_fit, pcovT = sp.curve_fit(ff.tweeter_volt,
                           xdata= f_T,
                           ydata= A_T,
                           sigma=AT_err,
                           p0=[c.Capacitance],
                           bounds=[0,100])
 
-W_fit, pcov2 = sp.curve_fit(ff.woofer_volt,
+W_fit, pcovW = sp.curve_fit(ff.woofer_volt,
                           xdata= f_W,
                           ydata= A_W,
                           sigma=AW_err,
@@ -47,7 +47,15 @@ plt.plot(f_W,ff.woofer_volt(f_W,*W_fit),
 
 ####
 #Fit parameters
-print("C: {}\nL:{}\nfcross:{}".format(T_fit[0],W_fit[0],1/(2*np.pi*np.sqrt(T_fit[0]*W_fit[0]))))
+####
+
+#Parameters itself
+print("L: {} +/- {}\n".format(W_fit[0],np.sqrt(pcovW[0][0])))
+print("C: {} +/- {}\n".format(T_fit[0],np.sqrt(pcovT[0][0])))
+
+print("F Cross: {} +/- {}\n".format(ff.fcross(W_fit[0],T_fit[0]),0))
+
+#print("C: {}\nL:{}\nfcross:{}".format(T_fit[0],W_fit[0],1/()))
 
 #Graphics
 plt.legend() 
