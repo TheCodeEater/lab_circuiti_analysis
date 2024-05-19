@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import fit_functions as ff
 import scipy.optimize as sp
 import constants as c
+import uncertainty as uc
 
 # Load phase data
 f_T, p_T, pT_error = np.loadtxt("data/channels/dati", unpack=True,usecols=(0,7,8))
@@ -112,9 +113,20 @@ plt.plot(f_T,ff.phase_difference(f_T,*Diff_fit),
          color='green',
          label='Fit')
 
+#Better symbols
+L=Diff_fit[0]
+Delta_L=np.sqrt(pcov_diff[0][0])
+C=Diff_fit[1]
+Delta_C=np.sqrt(pcov_diff[1][1])
+Offset=Diff_fit[2]
+Delta_offset=np.sqrt(pcov_diff[2][2])
+
 #Write fit data
-print("L: {}\nC: {}\nOffset: {}".format(Diff_fit[0],Diff_fit[1],Diff_fit[2]))
-print("Fcross: {}\n".format(1/(2*np.pi*np.sqrt(Diff_fit[0]*Diff_fit[1]))))
+print("L: {} +/- {}\n".format(L,Delta_L))
+print("C: {} +/- {}\n".format(C,Delta_C))
+print("Offset: {} +/- {}\n".format(Offset,Delta_offset))
+
+print("Fcross: {} +/- {}\n".format(1/(2*np.pi*np.sqrt(L*C)),uc.fcross(L,Delta_L,C,Delta_C)))
 
 #Search for maximum phase displacement
 max_index=np.argmax(p_T)
@@ -142,10 +154,10 @@ plt.plot(f_W,ff.phase_difference(f_W,*W_fit,*T_fit),
 
 #Graphics
 plt.legend()
-plt.xlabel("x")
-plt.ylabel("y")
+plt.xlabel("Frequenza (Hz)")
+plt.ylabel("Fase (rad)")
 plt.xscale("log")
 #plt.yscale("log")
-plt.title("Crossover")
+plt.title("Sfasamento Tweeter rispetto al Woofer - Dati e fit")
 #plt.show() # --> Per visualizzare
 plt.savefig("./artifacts/phase_cross.png") # --> Per salvare

@@ -24,6 +24,9 @@ tweeter_exp = R*V/sy.sqrt(R**2+(w*C)**-2)
 woofer_phase_exp = sy.atan(-w*L/R)
 tweeter_phase_exp = sy.atan(1/(w*R*C))
 
+#Cross formula
+fcross_exp=1/(2*sy.pi*sy.sqrt(L*C))
+
 
 #Conversion
 # Frequency to angular frequency
@@ -49,5 +52,7 @@ tweeter_volt = sy.lambdify([f, C], tweeter_exp)
 tweeter_phase = sy.lambdify([f, C], tweeter_phase_exp)
 woofer_phase = sy.lambdify([f, L], woofer_phase_exp)
 phase_difference=sy.lambdify([f, L, C, k], p_diff)
+
+fcross=sy.lambdify([L,C],fcross_exp)
 
 #print(woofer_exp)
