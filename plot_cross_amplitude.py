@@ -9,6 +9,8 @@ import uncertainty as uc
 f_T, A_T, AT_err=np.loadtxt("data/channels/dati", unpack=True, usecols=(0,3,4))
 f_W, A_W, AW_err=np.loadtxt(
     "data/channels/dati", unpack=True,usecols=(0,1,2))
+#Load also vin data
+f_Vin, A_Vin, AVin_err=np.loadtxt("data/channels/vin",unpack=True,usecols=(0,1,2))
 
 #Fit tweeter
 #Initial parameters
@@ -36,6 +38,9 @@ plt.plot(f_T,A_T,
 plt.plot(f_W,A_W,
          color='orange',
          label='Woofer')
+plt.plot(f_Vin,A_Vin,
+         color='purple',
+         label='Vin')
 
 #Plot fits
 plt.plot(f_T,ff.tweeter_volt(f_T,*T_fit),
