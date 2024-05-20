@@ -12,21 +12,28 @@ f_W, A_W, AW_err=np.loadtxt(
 #Load also vin data
 f_Vin, A_Vin, AVin_err=np.loadtxt("data/channels/vin",unpack=True,usecols=(0,1,2))
 
-#Calculate actual vin
-A_Vin=2*0.66-A_Vin
+#Get maximum of vin
+max_index=np.argmax(A_Vin)
+max_vin=A_Vin[max_index]
+max_vin_freq=f_Vin[max_index]
+
+#Compute gain
+A_T=A_T/A_Vin
+A_W=A_W/A_Vin
+
+#Compute uncerainty
 
 #Fit tweeter
-#Initial parameters
-#sigma=1e-4
 
-T_fit, pcovT = sp.curve_fit(ff.tweeter_volt,
+
+T_fit, pcovT = sp.curve_fit(ff.tweeter_gain,
                           xdata= f_T,
                           ydata= A_T,
                           sigma=AT_err,
                           p0=[c.Capacitance],
                           bounds=[0,100])
 
-W_fit, pcovW = sp.curve_fit(ff.woofer_volt,
+W_fit, pcovW = sp.curve_fit(ff.woofer_gain,
                           xdata= f_W,
                           ydata= A_W,
                           sigma=AW_err,
@@ -46,11 +53,11 @@ plt.plot(f_Vin,A_Vin,
          label='Vin')
 
 #Plot fits
-plt.plot(f_T,ff.tweeter_volt(f_T,*T_fit),
+plt.plot(f_T,ff.tweeter_gain(f_T,*T_fit),
          color='red',
          label='FIT_TWEETER')
 #Plot fits
-plt.plot(f_W,ff.woofer_volt(f_W,*W_fit),
+plt.plot(f_W,ff.woofer_gain(f_W,*W_fit),
          color='green',
          label='FIT_WOOFER')
 
@@ -69,6 +76,7 @@ print("C: {} +/- {}\n".format(C,Delta_C))
 print("F Cross: {} +/- {}\n".format(ff.fcross(W_fit[0],T_fit[0]),uc.fcross(L,Delta_L,C,Delta_C)))
 
 #print("C: {}\nL:{}\nfcross:{}".format(T_fit[0],W_fit[0],1/()))
+print("Maximum Vin value: {}\n At frequency: {}\n".format(max_vin,max_vin_freq))
 
 #Graphics
 plt.legend() 
