@@ -7,7 +7,7 @@ import uncertainty as uc
 
 #Define values
 L=c.Inductance
-C=1.06e-6 #use initially detected capacity
+C=c.Capacitance #use initially detected capacity
 
 Delta_L=0.01*L
 Delta_C=0.01*C
