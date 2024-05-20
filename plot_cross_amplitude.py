@@ -12,6 +12,9 @@ f_W, A_W, AW_err=np.loadtxt(
 #Load also vin data
 f_Vin, A_Vin, AVin_err=np.loadtxt("data/channels/vin",unpack=True,usecols=(0,1,2))
 
+#Calculate actual vin
+A_Vin=2*0.66-A_Vin
+
 #Fit tweeter
 #Initial parameters
 #sigma=1e-4
