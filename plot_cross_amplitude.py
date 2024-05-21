@@ -48,9 +48,11 @@ plt.plot(f_T,A_T,
 plt.plot(f_W,A_W,
          color='orange',
          label='Woofer')
+"""
 plt.plot(f_Vin,A_Vin,
          color='purple',
          label='Vin')
+         """
 
 #Plot fits
 plt.plot(f_T,ff.tweeter_gain(f_T,*T_fit),
@@ -76,7 +78,7 @@ print("C: {} +/- {}\n".format(C,Delta_C))
 print("F Cross: {} +/- {}\n".format(ff.fcross(W_fit[0],T_fit[0]),uc.fcross(L,Delta_L,C,Delta_C)))
 
 #print("C: {}\nL:{}\nfcross:{}".format(T_fit[0],W_fit[0],1/()))
-print("Maximum Vin value: {}\n At frequency: {}\n".format(max_vin,max_vin_freq))
+print("Maximum Vin value: {}\n At frequency: {} +/- {}\n".format(max_vin,max_vin_freq,8))
 
 #Graphics
 plt.legend() 
@@ -84,6 +86,6 @@ plt.xlabel("Frequenza (Hz)")
 plt.ylabel("Ampiezza (V)")
 plt.xscale("log")
 #plt.yscale("log")
-plt.title("Ampiezza vs Frequenza - Dati sperimentali e fit")
+plt.title("Risposta in frequenza - Guadagno in tensione")
 #plt.show() # --> Per visualizzare
 plt.savefig("./artifacts/cross.png") # --> Per salvare
