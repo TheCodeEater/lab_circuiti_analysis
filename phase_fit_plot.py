@@ -91,12 +91,13 @@ W_fit, pcov2 = sp.curve_fit(ff.woofer_phase,
                           p0=[c.Inductance],
                           bounds=[0,100])
                           """
-Diff_fit, pcov_diff = sp.curve_fit(ff.phase_difference,
+Diff_fit, pcov_diff, info, str,junk = sp.curve_fit(ff.phase_difference,
                                    xdata=f_T,
                                    ydata=p_T,
                                    sigma=pT_error,
                                    p0=[c.Inductance,c.Capacitance,0],
-                                   bounds=[[0,0,-20],[1.5e-2,1e-5,20]])
+                                   bounds=[[0,0,-20],[1.5e-2,1e-5,20]],
+                                   full_output=True)
 
 # Plot
 
@@ -127,6 +128,18 @@ print("C: {} +/- {}\n".format(C,Delta_C))
 print("Offset: {} +/- {}\n".format(Offset,Delta_offset))
 
 print("Fcross: {} +/- {}\n".format(1/(2*np.pi*np.sqrt(L*C)),uc.fcross(L,Delta_L,C,Delta_C)))
+
+#Compute chi square
+residuals=info["fvec"]
+
+chisq=sum(residuals**2)
+
+#reduce
+dof=385 #(values)
+constraints=2 #L and C are extracted
+dof=dof-constraints
+
+print("Chi: {}".format(chisq/dof))
 
 #Search for maximum phase displacement
 max_index=np.argmax(p_T)
