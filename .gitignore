@@ -4,3 +4,8 @@ artifacts/
 *.png
 
 *.log
+/__pycache__
+/__pycache__
+/__pycache__
+__pycache__/constants.cpython-311.pyc
+__pycache__/fit_functions.cpython-311.pyc
