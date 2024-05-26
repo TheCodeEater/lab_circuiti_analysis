@@ -22,23 +22,26 @@ A_T=A_T/A_Vin
 A_W=A_W/A_Vin
 
 #Compute uncerainty
-
+AT_err=AT_err+0.002
+AW_err=AW_err+0.002
 #Fit tweeter
 
 
-T_fit, pcovT = sp.curve_fit(ff.tweeter_gain,
+T_fit, pcovT, infoT , junk, junka= sp.curve_fit(ff.tweeter_gain,
                           xdata= f_T,
                           ydata= A_T,
                           sigma=AT_err,
                           p0=[c.Capacitance],
-                          bounds=[0,100])
+                          bounds=[0,100],
+                        full_output=True)
 
-W_fit, pcovW = sp.curve_fit(ff.woofer_gain,
+W_fit, pcovW, infoW, junk1,junk2 = sp.curve_fit(ff.woofer_gain,
                           xdata= f_W,
                           ydata= A_W,
                           sigma=AW_err,
                           p0=[c.Inductance],
-                          bounds=[0,100])
+                          bounds=[0,100],
+                                                full_output=True)
 
 # Plotting
 #Plot experimental points
@@ -80,12 +83,28 @@ print("F Cross: {} +/- {}\n".format(ff.fcross(W_fit[0],T_fit[0]),uc.fcross(L,Del
 #print("C: {}\nL:{}\nfcross:{}".format(T_fit[0],W_fit[0],1/()))
 print("Maximum Vin value: {}\n At frequency: {} +/- {}\n".format(max_vin,max_vin_freq,8))
 
+
+#Compute chi square
+residualsT=infoT["fvec"]
+residualsW=infoW["fvec"]
+
+chisqT=sum(residualsT**2)
+chisqW=sum(residualsW**2)
+
+#reduce
+dof=385 #(values)
+constraints=2 #L and C are extracted
+dof=dof-constraints
+
+print("ChiT: {}".format(chisqT/dof))
+print("ChiW: {}".format(chisqW/dof))
+
 #Graphics
 plt.legend() 
 plt.xlabel("Frequenza (Hz)")
 plt.ylabel("Ampiezza (V)")
 plt.xscale("log")
 #plt.yscale("log")
-plt.title("Risposta in frequenza - Guadagno in tensione")
+#plt.title("Risposta in frequenza - Guadagno in tensione")
 #plt.show() # --> Per visualizzare
 plt.savefig("./artifacts/cross.png") # --> Per salvare

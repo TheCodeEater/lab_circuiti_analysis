@@ -4,6 +4,7 @@ import fit_functions as ff
 import scipy.optimize as sp
 import constants as c
 import uncertainty as uc
+import correction_factor as cf
 
 # Load phase data
 f_T, p_T, pT_error = np.loadtxt("data/channels/dati", unpack=True,usecols=(0,7,8))
@@ -65,15 +66,12 @@ def correct_systematic_2(p,f):
 #Systematic correction
 p_T=correct_systematic_1(p_T,f_T)
 
-#Convert to degress
-#p_T=vect_rad2deg(p_T)
-#p_W=vect_rad2deg(p_W)
-
-#Phase difference
-#p_W=correct_systematic_2(p_W,f_W)
 
 #Systematic oscillation correction
 p_T=p_T-p_W
+
+#Frequency equivalent uncertainty
+#pT_error=pT_error+cf.phase_sigmaeq_vec(pT_error)
 
 
 # Perform fit
@@ -105,10 +103,10 @@ plt.plot(f_T,p_T,
          color='blue',
          label='Tweeter')
 
-
+""""
 plt.plot(f_W,p_W,
          color='orange',
-         label='Woofer')
+         label='Woofer')"""
 
 plt.plot(f_T,ff.phase_difference(f_T,*Diff_fit),
          color='green',
