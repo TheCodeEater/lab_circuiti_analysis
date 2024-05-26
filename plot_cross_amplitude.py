@@ -21,6 +21,9 @@ max_vin_freq=f_Vin[max_index]
 A_T=A_T/A_Vin
 A_W=A_W/A_Vin
 
+AT_err=uc.gain_vec(A_T,A_Vin,AT_err,AVin_err)
+AW_err=uc.gain_vec(A_W,A_Vin,AW_err,AVin_err)
+
 #Compute uncerainty
 AT_err=AT_err+0.002
 AW_err=AW_err+0.002
